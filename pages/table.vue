@@ -1,11 +1,14 @@
 <template>
-  <UContainer class="m-4">
-    <UTable :columns="columns" :rows="restaurants" />
+  <UContainer class="m-auto mt-20">
+    <UInput v-model="q" placeholder="Filter..." />
+    <UTable :columns="columns" :rows="filteredRows" />
   </UContainer>
 </template>
 
 <script setup lang="ts">
 const db = await useDb();
+
+const q = ref("");
 
 const columns = [
   {
@@ -42,4 +45,15 @@ const columns = [
 const restaurants = computed(
   () => db.geojsonData.value?.features.map((r) => r.properties) ?? []
 );
+
+const filteredRows = computed(() => {
+  if (!q.value) {
+    return restaurants.value;
+  }
+  return restaurants.value.filter((r) => {
+    return Object.values(r).some((value) => {
+      return String(value).toLowerCase().includes(q.value.toLowerCase());
+    });
+  });
+});
 </script>

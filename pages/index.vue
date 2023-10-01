@@ -1,28 +1,25 @@
 <template>
-  <div class="fixed top-4 right-4 z-10">
-    <UCard>
-      <ThemeBtn></ThemeBtn>
-    </UCard>
-  </div>
-
   <div class="w-screen h-screen">
-    <Map :zoomOn="zoomEvent"></Map>
+    <Map></Map>
   </div>
 
   <div class="fixed bottom-4 w-full px-2 flex justify-center z-10">
-    <UCard>
-      <template #header>
-        <UContainer
-          v-if="currentPoint"
-          class="flex justify-between items-center"
-        >
+    <UCard
+      :ui="{
+        header: { padding: 'px-2 py-2 sm:p-2' },
+        body: { padding: 'px-2 py-2 sm:p-2' },
+        footer: { padding: 'px-2 py-2 sm:p-2' },
+      }"
+    >
+      <template #header v-if="currentPoint">
+        <UContainer class="flex justify-between items-center space-x-4">
           <span>{{ currentPoint.properties.name }}</span>
 
           <div class="flex space-x-2">
             <UTooltip text="Fly to">
               <UButton
                 icon="i-heroicons-arrows-pointing-in"
-                size="sm"
+                size="2xs"
                 color="primary"
                 variant="soft"
                 :ui="{ rounded: 'rounded-full' }"
@@ -34,21 +31,30 @@
               <UTooltip text="Raw data">
                 <UButton
                   icon="i-heroicons-code-bracket"
-                  size="sm"
+                  size="2xs"
                   color="primary"
                   variant="soft"
                   :ui="{ rounded: 'rounded-full' }"
                 />
               </UTooltip>
-            </UPopover>
-          </div>
-
-          <template #panel>
-            <pre class="text-xs">
+              <template #panel>
+                <pre class="text-xs">
           {{ currentPoint.properties }}
         </pre
-            >
-          </template>
+                >
+              </template>
+            </UPopover>
+            <UTooltip text="Close">
+              <UButton
+                icon="i-heroicons-chevron-down"
+                size="2xs"
+                color="red"
+                variant="soft"
+                :ui="{ rounded: 'rounded-full' }"
+                @click="onCloseDetailsPanel()"
+              />
+            </UTooltip>
+          </div>
         </UContainer>
       </template>
       <UContainer v-if="currentPoint" class="flex-col space-y-2">
@@ -79,47 +85,56 @@
           </UKbd>
         </div>
       </UContainer>
-      <UContainer v-else>
-        <p>
-          <i>Click on a point to view details</i>
-        </p>
-      </UContainer>
       <template #footer>
-        <UContainer class="flex items-center justify-between">
-          <p class="text-xs">Type <UKbd>/</UKbd> to search</p>
+        <UContainer class="flex items-center justify-between space-x-4">
+          <div>
+            <p class="text-xs">Click on a point to view details</p>
+            <p class="text-xs">Type <UKbd>/</UKbd> to search</p>
+          </div>
           <UButton
             icon="i-heroicons-magnifying-glass"
             size="md"
             color="primary"
             variant="solid"
             :ui="{ rounded: 'rounded-full' }"
-            @click="isSearchOpen = !isSearchOpen"
+            @click="toggleSearchBar()"
           />
         </UContainer>
       </template>
     </UCard>
   </div>
 
-  <SearchPalette :isOpen="isSearchOpen" />
+  <SearchPalette />
 </template>
 
 <script setup lang="ts">
 import { RestaurantFeature } from "~/models/restaurant-feature";
 
 const currentPoint = useCurrentPoint();
+const currentPointZoomed = useCurrentPointZoomed();
+const searchBarOpen = useSearchBarOpen();
 
-const zoomEvent = ref<RestaurantFeature | null>(null);
-const isSearchOpen = ref<boolean>(false);
+defineShortcuts({
+  "/": {
+    handler: () => {
+      toggleSearchBar();
+    },
+  },
+});
 
 function onZoomOnCurrentPoint() {
   if (!currentPoint.value) {
     return;
   }
 
-  zoomEvent.value = currentPoint.value;
+  currentPointZoomed.value = currentPoint.value;
+}
 
-  setTimeout(() => {
-    zoomEvent.value = null;
-  }, 500);
+function onCloseDetailsPanel() {
+  currentPoint.value = null;
+}
+
+function toggleSearchBar() {
+  searchBarOpen.value = !searchBarOpen.value;
 }
 </script>

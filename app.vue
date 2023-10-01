@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="fixed top-2 w-full z-10 flex justify-center">
-      <UTabs :items="items" @change="onChange" />
+      <UTabs :items="items" @change="onChange" v-model="curr" />
+    </div>
+
+    <div class="fixed top-4 right-4 z-10">
+      <UCard :ui="{ body: { padding: 'px-2 py-2 sm:p-2' } }">
+        <ThemeBtn></ThemeBtn>
+      </UCard>
     </div>
 
     <NuxtLayout>
@@ -12,21 +18,31 @@
 </template>
 
 <script setup lang="ts">
+const route = useRoute();
 const router = useRouter();
 
-const items = [{ label: "Map" }, { label: "Table" }];
+const curr = ref(0);
+
+const items = [
+  { label: "Map", path: "/" },
+  { label: "Table", path: "/table" },
+];
+
+_updateBasedOnPath();
+watch(
+  () => route.path,
+  () => {
+    _updateBasedOnPath();
+  }
+);
 
 function onChange(index: number) {
-  switch (index) {
-    case 0:
-      router.push({ path: "/" });
-      break;
-    case 1:
-      router.push({ path: "/table" });
-      break;
+  const item = items[index];
+  router.push({ path: item.path });
+}
 
-    default:
-      break;
-  }
+function _updateBasedOnPath() {
+  const index = items.findIndex((p) => p.path === route.path);
+  curr.value = index;
 }
 </script>

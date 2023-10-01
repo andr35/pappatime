@@ -10,3 +10,9 @@ export const useGeojsonData = () =>
 
 export const useCurrentPoint = () =>
   useState<RestaurantFeature | null>("current-point", () => null);
+
+export const useCurrentPointZoomed = () =>
+  useState<RestaurantFeature | null>("current-point-zoomed", () => null);
+
+export const useSearchBarOpen = () =>
+  useState<boolean>("searc-bar-open", () => false);

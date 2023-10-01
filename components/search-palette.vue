@@ -1,6 +1,7 @@
 <template>
-  <UModal :modelValue="isOpen">
+  <UModal v-model="searchBarOpen">
     <UCommandPalette
+      @update:modelValue="(value) => onSelected(value)"
       v-model="selected"
       nullable
       :groups="[{ key: 'restaurants', commands: restaurants }]"
@@ -10,7 +11,12 @@
 </template>
 
 <script setup lang="ts">
+import type { RestaurantFeature } from "~/models/restaurant-feature";
+
 const db = await useDb();
+const searchBarOpen = useSearchBarOpen();
+const currentPoint = useCurrentPoint();
+const currentPointZoomed = useCurrentPointZoomed();
 
 const restaurants = computed(
   () =>
@@ -20,7 +26,20 @@ const restaurants = computed(
     })) ?? []
 );
 
-defineProps<{ isOpen: boolean }>();
-
 const selected = ref<any | null>(null);
+
+function onSelected(restaurant: { id: string; label: string } | null) {
+  if (!restaurant) {
+    return;
+  }
+
+  const item = db.geojsonData.value?.features.find(
+    (v) => v.properties.code === restaurant.id
+  );
+  if (item) {
+    currentPoint.value = item as RestaurantFeature;
+    currentPointZoomed.value = item as RestaurantFeature;
+  }
+  searchBarOpen.value = false;
+}
 </script>

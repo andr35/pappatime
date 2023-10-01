@@ -3,9 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { Feature, Geometry } from "geojson";
 import mapboxgl, { GeoJSONSource } from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
-import { Restaurant } from "~/models/restaurant";
 import { RestaurantFeature } from "~/models/restaurant-feature";
 
 const LAYER = "markers-layer";
@@ -14,8 +12,7 @@ const SOURCE = "data";
 const appConfig = useAppConfig();
 const db = await useDb();
 const currentPoint = useCurrentPoint();
-
-const props = defineProps<{ zoomOn?: RestaurantFeature | null }>();
+const currPointZoomed = useCurrentPointZoomed();
 
 const mapElem = ref<HTMLDivElement | null>(null);
 
@@ -94,17 +91,15 @@ onMounted(async () => {
       map.getCanvas().style.cursor = "";
     });
 
-    watch(
-      () => props.zoomOn,
-      () => {
-        if (props.zoomOn) {
-          map.flyTo({
-            zoom: 20,
-            center: props.zoomOn.geometry.coordinates as any,
-          });
-        }
+    watch(currPointZoomed, (value) => {
+      if (value) {
+        map.flyTo({
+          zoom: 20,
+          center: value.geometry.coordinates as any,
+        });
+        currPointZoomed.value = null;
       }
-    );
+    });
   });
 });
 </script>

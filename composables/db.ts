@@ -1,4 +1,3 @@
-import { Restaurant } from "~/models/restaurant";
 import { useGeojsonData } from "./states";
 
 export const useDb = async () => {
@@ -6,7 +5,8 @@ export const useDb = async () => {
   const geojsonData = useGeojsonData();
 
   async function loadData() {
-    const { data, error } = await useFetch("/geojson.json");
+    const { data, error } = await useFetch("/api/geojson");
+    // const { data, error } = await useFetch("/geojson.json");
 
     geojsonData.value = data.value as any;
 
