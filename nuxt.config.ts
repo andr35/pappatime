@@ -8,6 +8,12 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
 
+  app: {
+    head: {
+      link: [{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
+    },
+  },
+
   appConfig: {
     mapboxToken: process.env.MAPBOX_TOKEN,
   },
