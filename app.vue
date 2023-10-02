@@ -6,7 +6,10 @@
 
     <div class="fixed top-4 right-4 z-10">
       <UCard :ui="{ body: { padding: 'px-2 py-2 sm:p-2' } }">
-        <ThemeBtn></ThemeBtn>
+        <div class="flex space-x-2">
+          <MapLightBtn />
+          <ThemeBtn />
+        </div>
       </UCard>
     </div>
 

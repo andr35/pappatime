@@ -5,7 +5,7 @@
       v-model="selected"
       nullable
       :groups="[{ key: 'restaurants', commands: restaurants }]"
-      :fuse="{ resultLimit: 6, fuseOptions: { threshold: 0.1 } }"
+      :fuse="{ fuseOptions: { threshold: 0.1 } }"
     />
   </UModal>
 </template>

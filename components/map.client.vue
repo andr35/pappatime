@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import mapboxgl, { GeoJSONSource } from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
+import mapboxgl, { GeoJSONSource, LngLatLike } from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
 import { RestaurantFeature } from "~/models/restaurant-feature";
 
 const LAYER = "markers-layer";
@@ -12,7 +12,8 @@ const SOURCE = "data";
 const appConfig = useAppConfig();
 const db = await useDb();
 const currentPoint = useCurrentPoint();
-const currPointZoomed = useCurrentPointZoomed();
+const currentPointZoomed = useCurrentPointZoomed();
+const mapLightPreset = useMapLightPreset();
 
 const mapElem = ref<HTMLDivElement | null>(null);
 
@@ -22,7 +23,8 @@ onMounted(async () => {
   mapboxgl.accessToken = appConfig.mapboxToken;
   const map = new mapboxgl.Map({
     container: mapElem.value!,
-    style: "mapbox://styles/mapbox/streets-v12", // style URL
+    // style: "mapbox://styles/mapbox/streets-v12", // style URL
+    style: "mapbox://styles/mapbox/standard-beta", // style URL
     center: [11.12108, 46.06787], // starting position [lng, lat]
     zoom: 12, // starting zoom
   });
@@ -91,14 +93,18 @@ onMounted(async () => {
       map.getCanvas().style.cursor = "";
     });
 
-    watch(currPointZoomed, (value) => {
+    watch(currentPointZoomed, (value) => {
       if (value) {
         map.flyTo({
           zoom: 20,
-          center: value.geometry.coordinates as any,
+          center: value.geometry.coordinates as LngLatLike,
         });
-        currPointZoomed.value = null;
+        currentPointZoomed.value = null;
       }
+    });
+
+    watch(mapLightPreset, (value) => {
+      (map as any).setConfigProperty("basemap", "lightPreset", value);
     });
   });
 });

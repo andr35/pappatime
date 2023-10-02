@@ -108,8 +108,6 @@
 </template>
 
 <script setup lang="ts">
-import { RestaurantFeature } from "~/models/restaurant-feature";
-
 const currentPoint = useCurrentPoint();
 const currentPointZoomed = useCurrentPointZoomed();
 const searchBarOpen = useSearchBarOpen();
@@ -118,6 +116,14 @@ defineShortcuts({
   "/": {
     handler: () => {
       toggleSearchBar();
+    },
+  },
+});
+
+defineShortcuts({
+  escape: {
+    handler: () => {
+      onCloseDetailsPanel();
     },
   },
 });
