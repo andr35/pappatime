@@ -22,4 +22,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     dataXlsUrl: process.env.DATA_XLS_URL,
   },
+
+  ui: {
+    icons: ["heroicons", "mdi"],
+  },
 });

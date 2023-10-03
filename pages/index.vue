@@ -91,14 +91,24 @@
             <p class="text-xs">Click on a point to view details</p>
             <p class="text-xs">Type <UKbd>/</UKbd> to search</p>
           </div>
-          <UButton
-            icon="i-heroicons-magnifying-glass"
-            size="md"
-            color="primary"
-            variant="solid"
-            :ui="{ rounded: 'rounded-full' }"
-            @click="toggleSearchBar()"
-          />
+          <div class="flex space-x-2">
+            <UButton
+              icon="i-heroicons-magnifying-glass"
+              size="md"
+              color="primary"
+              variant="solid"
+              :ui="{ rounded: 'rounded-full' }"
+              @click="toggleSearchBar()"
+            />
+            <UButton
+              icon="i-mdi-dice"
+              size="md"
+              color="primary"
+              variant="solid"
+              :ui="{ rounded: 'rounded-full' }"
+              @click="onRandomRestaurant()"
+            />
+          </div>
         </UContainer>
       </template>
     </UCard>
@@ -108,6 +118,9 @@
 </template>
 
 <script setup lang="ts">
+import { RestaurantFeature } from "~/models/restaurant-feature";
+
+const db = await useDb();
 const currentPoint = useCurrentPoint();
 const currentPointZoomed = useCurrentPointZoomed();
 const searchBarOpen = useSearchBarOpen();
@@ -142,5 +155,20 @@ function onCloseDetailsPanel() {
 
 function toggleSearchBar() {
   searchBarOpen.value = !searchBarOpen.value;
+}
+
+function onRandomRestaurant() {
+  const list = db.geojsonData.value?.features;
+
+  if (!list) {
+    return;
+  }
+
+  const selected = list[
+    Math.floor(Math.random() * (list.length + 1))
+  ] as RestaurantFeature;
+
+  currentPoint.value = selected;
+  currentPointZoomed.value = currentPoint.value;
 }
 </script>
