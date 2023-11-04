@@ -1,11 +1,11 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { Buffer } from "node:buffer";
 import { read, utils } from "xlsx";
-import { Restaurant } from "~/models/restaurant";
-import { FeatureCollection, Position } from "geojson";
+import type { Restaurant } from "~/models/restaurant";
+import type { FeatureCollection, Position } from "geojson";
 import { useLogger } from "nuxt/kit";
 import mbxGeocodingClient, {
-  GeocodeService,
+  type GeocodeService,
 } from "@mapbox/mapbox-sdk/services/geocoding";
 import mbxClient from "@mapbox/mapbox-sdk";
 
@@ -69,7 +69,7 @@ export async function runDataExctractor(url: string) {
       region: row["CDREG"],
       fraction: row["Frazione"],
       type: row["Tipo locale"],
-      closingDay: row["Giorno di chiusura"],
+      closingDay: row["GIORNO DI CHIUSURA"],
       vatNumber: row["PARTITA IVA"],
       supplierName: row["RAG SOC FORNITORE"],
       code: row["COD locale"],

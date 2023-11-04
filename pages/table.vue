@@ -1,7 +1,12 @@
 <template>
   <UContainer class="m-auto mt-20">
     <UInput v-model="q" placeholder="Filter..." />
-    <UTable :columns="columns" :rows="filteredRows" />
+    <UTable :columns="columns" :rows="filteredRows">
+      <template #closingDay-data="{ row }">
+        <OpeningState :closing-day="row.closingDay" class="mx-2" />
+        <span>{{ row.closingDay }}</span>
+      </template>
+    </UTable>
   </UContainer>
 </template>
 

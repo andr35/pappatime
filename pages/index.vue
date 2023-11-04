@@ -73,9 +73,10 @@
           />
           <p>{{ currentPoint.properties.type }}</p>
         </div>
-        <div class="flex items-center">
+        <div class="flex items-center space-x-2">
           <UIcon name="i-heroicons-x-circle" class="text-2xl mr-2" />
           <p>{{ currentPoint.properties.closingDay }}</p>
+          <OpeningState :closingDay="currentPoint.properties.closingDay" />
         </div>
         <div class="flex items-center">
           <UIcon name="i-heroicons-map" class="text-2xl mr-2" />
@@ -83,6 +84,16 @@
             {{ (currentPoint.geometry as any).coordinates[0] }}
             {{ (currentPoint.geometry as any).coordinates[1] }}
           </UKbd>
+
+          <UTooltip text="Open in Maps">
+            <UButton
+              icon="i-heroicons-arrow-top-right-on-square"
+              size="xs"
+              color="primary"
+              variant="link"
+              @click="onOpenInMaps()"
+            />
+          </UTooltip>
         </div>
       </UContainer>
       <template #footer>
@@ -118,7 +129,7 @@
 </template>
 
 <script setup lang="ts">
-import { RestaurantFeature } from "~/models/restaurant-feature";
+import { type RestaurantFeature } from "~/models/restaurant-feature";
 
 const db = await useDb();
 const currentPoint = useCurrentPoint();
@@ -170,5 +181,23 @@ function onRandomRestaurant() {
 
   currentPoint.value = selected;
   currentPointZoomed.value = currentPoint.value;
+}
+
+function onOpenInMaps() {
+  if (!currentPoint.value) {
+    return;
+  }
+  const props = currentPoint.value.properties;
+  const query = encodeURIComponent(
+    props.name + " " + props.address + " " + props.city
+  );
+
+  navigateTo(`https://www.google.com/maps/search/?api=1&query=${query}`, {
+    external: true,
+    open: {
+      target: "_blank",
+      windowFeatures: { noopener: true, noreferrer: true },
+    },
+  });
 }
 </script>

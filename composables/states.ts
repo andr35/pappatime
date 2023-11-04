@@ -1,7 +1,7 @@
-import { Geometry } from "geojson";
+import type { Geometry } from "geojson";
 import { MapLightPreset } from "~/models/map-light-preset";
-import { Restaurant } from "~/models/restaurant";
-import { RestaurantFeature } from "~/models/restaurant-feature";
+import type { Restaurant } from "~/models/restaurant";
+import type { RestaurantFeature } from "~/models/restaurant-feature";
 
 export const useGeojsonData = () =>
   useState<GeoJSON.FeatureCollection<Geometry, Restaurant> | null>(

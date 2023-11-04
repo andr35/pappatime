@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import mapboxgl, { GeoJSONSource, LngLatLike } from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
-import { RestaurantFeature } from "~/models/restaurant-feature";
+import mapboxgl, { GeoJSONSource, type LngLatLike } from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
+import type { RestaurantFeature } from "~/models/restaurant-feature";
 
 const LAYER = "markers-layer";
 const SOURCE = "data";

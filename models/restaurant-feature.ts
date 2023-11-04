@@ -1,4 +1,4 @@
-import { Geometry, Point } from "geojson";
-import { Restaurant } from "./restaurant";
+import type { Point } from "geojson";
+import type { Restaurant } from "./restaurant";
 
 export type RestaurantFeature = GeoJSON.Feature<Point, Restaurant>;
