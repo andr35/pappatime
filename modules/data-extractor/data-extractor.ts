@@ -8,6 +8,7 @@ import mbxGeocodingClient, {
   type GeocodeService,
 } from "@mapbox/mapbox-sdk/services/geocoding";
 import mbxClient from "@mapbox/mapbox-sdk";
+import type { RestaurantFeature } from "~/models/restaurant-feature";
 
 const logger = useLogger();
 
@@ -58,21 +59,38 @@ export async function runDataExctractor(url: string) {
     workbook.Sheets[workbook.SheetNames[0]]
   );
 
+  let i = 0;
   for (let row of xlData) {
+    i++;
+
     data.restaurants.push({
-      number: row["N."],
-      name: row["Insegna"],
-      address: row["Indirizzo"],
-      city: row["Localita'"],
-      postalCode: row["CAP"],
-      province: row["Prov"],
-      region: row["CDREG"],
-      fraction: row["Frazione"],
-      type: row["Tipo locale"],
-      closingDay: row["GIORNO DI CHIUSURA"],
-      vatNumber: row["PARTITA IVA"],
-      supplierName: row["RAG SOC FORNITORE"],
-      code: row["COD locale"],
+      number: i,
+      name: row["__EMPTY_3"],
+      address: row["__EMPTY_4"],
+      city: row["__EMPTY_5"],
+      postalCode: row["__EMPTY_6"],
+      province: row["__EMPTY_7"],
+      region: row["__EMPTY_8"],
+      fraction: row["__EMPTY_9"],
+      type: row["__EMPTY_10"],
+      closingDay: row["__EMPTY_11"],
+      vatNumber: row["__EMPTY_12"],
+      supplierName: row["__EMPTY_13"],
+      code: row["__EMPTY_14"],
+
+      // number: row["N."],
+      // name: row["Insegna"],
+      // address: row["Indirizzo"],
+      // city: row["Localita'"],
+      // postalCode: row["CAP"],
+      // province: row["Prov"],
+      // region: row["CDREG"],
+      // fraction: row["Frazione"],
+      // type: row["Tipo locale"],
+      // closingDay: row["Giorno di chiusura"],
+      // vatNumber: row["PARTITA IVA"],
+      // supplierName: row["RAG SOC FORNITORE"],
+      // code: row["COD locale"],
     });
   }
 
@@ -87,13 +105,14 @@ export async function runDataExctractor(url: string) {
 
     const coordinates = await resolveCoordinates(geocodingClient, store);
 
-    const res: GeoJSON.Feature = {
+    const res: RestaurantFeature = {
       type: "Feature",
       geometry: {
         type: "Point",
         coordinates,
       },
       properties: {
+        number: store.number,
         name: store.name,
         address: store.address,
         city: store.city,
@@ -126,7 +145,7 @@ async function resolveCoordinates(
   client: GeocodeService,
   store: Restaurant
 ): Promise<Position> {
-  const queryText = `${store.address}, ${store.city}, ${store.province}, ${store.postalCode}`;
+  const queryText = `${store.address}, ${store.fraction}, ${store.city}, ${store.province}, ${store.postalCode}`;
 
   const response = await client
     .forwardGeocode({

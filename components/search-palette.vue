@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Command } from "@nuxt/ui/dist/runtime/types";
 import type { RestaurantFeature } from "~/models/restaurant-feature";
 
 const db = await useDb();
@@ -20,21 +21,21 @@ const currentPointZoomed = useCurrentPointZoomed();
 
 const restaurants = computed(
   () =>
-    db.geojsonData.value?.features.map((f) => ({
-      id: f.properties.code,
+    db.geojsonData.value?.features.map<Command>((f) => ({
+      id: f.properties.number,
       label: f.properties.name,
     })) ?? []
 );
 
 const selected = ref<any | null>(null);
 
-function onSelected(restaurant: { id: string; label: string } | null) {
+function onSelected(restaurant: Command | null) {
   if (!restaurant) {
     return;
   }
 
   const item = db.geojsonData.value?.features.find(
-    (v) => v.properties.code === restaurant.id
+    (v) => v.properties.number === restaurant.id
   );
   if (item) {
     currentPoint.value = item as RestaurantFeature;

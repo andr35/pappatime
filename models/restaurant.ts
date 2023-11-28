@@ -12,17 +12,17 @@ export interface Restaurant {
   // Store province
   province: string;
   // Store region
-  region: string;
+  region?: string;
   // Store fraction
-  fraction: string;
+  fraction?: string;
   // Store type
   type: string;
   // Store closing day
   closingDay: string;
   // Store VAT number
-  vatNumber: string;
+  vatNumber?: string;
   // Store supplier name
-  supplierName: string;
+  supplierName?: string;
   // Store code
-  code: string;
+  code?: string;
 }
