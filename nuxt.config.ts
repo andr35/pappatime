@@ -11,7 +11,10 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "Pappatime",
-      link: [{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
+      link: [
+        { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+        { rel: "manifest", href: "/manifest.webmanifest" },
+      ],
     },
   },
 

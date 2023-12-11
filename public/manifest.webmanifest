@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "short_name": "Pappatime",
+  "name": "Pappatime",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "150x150"
+    }
+  ],
+  "id": "/?source=pwa",
+  "start_url": "/?source=pwa",
+  "background_color": "#fcea2b",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#fcea2b",
+  "shortcuts": [
+    {
+      "name": "Map",
+      "short_name": "Map",
+      "description": "Show the map",
+      "url": "/?source=pwa"
+    },
+    {
+      "name": "Table",
+      "short_name": "Table",
+      "description": "Show the restaurant's list",
+      "url": "/table?source=pwa"
+    }
+  ],
+  "description": "Restaurant's list on a map",
+  "display_override": ["standalone", "fullscreen"]
+}
