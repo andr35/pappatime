@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="fixed top-2 w-full z-10 flex justify-center">
+    <div class="fixed top-2 left-1/2 -translate-x-1/2 z-10 flex justify-center">
       <UTabs :items="items" @change="onChange" v-model="curr" />
     </div>
 
