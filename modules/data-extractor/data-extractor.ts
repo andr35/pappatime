@@ -1,13 +1,13 @@
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { Buffer } from "node:buffer";
-import { read, utils } from "xlsx";
-import type { Restaurant } from "~/models/restaurant";
-import type { FeatureCollection, Position } from "geojson";
-import { useLogger } from "nuxt/kit";
+import mbxClient from "@mapbox/mapbox-sdk";
 import mbxGeocodingClient, {
   type GeocodeService,
 } from "@mapbox/mapbox-sdk/services/geocoding";
-import mbxClient from "@mapbox/mapbox-sdk";
+import type { FeatureCollection, Position } from "geojson";
+import { Buffer } from "node:buffer";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { useLogger } from "nuxt/kit";
+import { read, utils } from "xlsx";
+import type { Restaurant } from "~/models/restaurant";
 import type { RestaurantFeature } from "~/models/restaurant-feature";
 
 const logger = useLogger();
@@ -65,18 +65,18 @@ export async function runDataExctractor(url: string) {
 
     data.restaurants.push({
       number: i,
-      name: row["__EMPTY_3"],
-      address: row["__EMPTY_4"],
-      city: row["__EMPTY_5"],
-      postalCode: row["__EMPTY_6"],
-      province: row["__EMPTY_7"],
-      region: row["__EMPTY_8"],
-      fraction: row["__EMPTY_9"],
-      type: row["__EMPTY_10"],
-      closingDay: row["__EMPTY_11"],
-      vatNumber: row["__EMPTY_12"],
-      supplierName: row["__EMPTY_13"],
-      code: row["__EMPTY_14"],
+      name: row["__EMPTY_5"],
+      address: row["__EMPTY_6"],
+      city: row["__EMPTY_7"],
+      postalCode: row["__EMPTY_8"],
+      province: row["__EMPTY_9"],
+      region: row["__EMPTY_10"],
+      fraction: row["__EMPTY_11"],
+      type: row["__EMPTY_12"],
+      closingDay: row["__EMPTY_13"],
+      vatNumber: row["__EMPTY_14"],
+      supplierName: row["__EMPTY_15"],
+      code: row["__EMPTY_16"],
 
       // number: row["N."],
       // name: row["Insegna"],
