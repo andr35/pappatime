@@ -111,14 +111,16 @@
               :ui="{ rounded: 'rounded-full' }"
               @click="toggleSearchBar()"
             />
-            <UButton
-              icon="i-mdi-dice"
-              size="md"
-              color="primary"
-              variant="solid"
-              :ui="{ rounded: 'rounded-full' }"
-              @click="onRandomRestaurant()"
-            />
+            <UTooltip text="Random pick" :shortcuts="['R']">
+              <UButton
+                icon="i-mdi-dice"
+                size="md"
+                color="primary"
+                variant="solid"
+                :ui="{ rounded: 'rounded-full' }"
+                @click="onRandomRestaurant()"
+              />
+            </UTooltip>
           </div>
         </UContainer>
       </template>
@@ -148,6 +150,14 @@ defineShortcuts({
   escape: {
     handler: () => {
       onCloseDetailsPanel();
+    },
+  },
+});
+
+defineShortcuts({
+  r: {
+    handler: () => {
+      onRandomRestaurant();
     },
   },
 });

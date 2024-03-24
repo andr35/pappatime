@@ -63,20 +63,23 @@ export async function runDataExctractor(url: string) {
   for (let row of xlData) {
     i++;
 
+    // Deubg
+    // console.log(">>> raw", row);
+
     data.restaurants.push({
       number: i,
-      name: row["__EMPTY_5"],
-      address: row["__EMPTY_6"],
-      city: row["__EMPTY_7"],
-      postalCode: row["__EMPTY_8"],
-      province: row["__EMPTY_9"],
-      region: row["__EMPTY_10"],
-      fraction: row["__EMPTY_11"],
-      type: row["__EMPTY_12"],
-      closingDay: row["__EMPTY_13"],
-      vatNumber: row["__EMPTY_14"],
-      supplierName: row["__EMPTY_15"],
-      code: row["__EMPTY_16"],
+      name: row["__EMPTY_3"],
+      address: row["__EMPTY_4"],
+      city: row["__EMPTY_5"],
+      postalCode: row["__EMPTY_6"],
+      province: row["__EMPTY_7"],
+      region: row["__EMPTY_8"],
+      fraction: row["__EMPTY_9"],
+      type: row["__EMPTY_10"],
+      closingDay: row["__EMPTY_11"],
+      vatNumber: row["__EMPTY_12"],
+      supplierName: row["__EMPTY_13"],
+      code: row["__EMPTY_14"],
 
       // number: row["N."],
       // name: row["Insegna"],
@@ -104,6 +107,9 @@ export async function runDataExctractor(url: string) {
     }
 
     const coordinates = await resolveCoordinates(geocodingClient, store);
+
+    // Debug
+    // const coordinates = [0, 0];
 
     const res: RestaurantFeature = {
       type: "Feature",
