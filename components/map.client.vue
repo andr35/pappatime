@@ -23,10 +23,21 @@ onMounted(async () => {
   mapboxgl.accessToken = appConfig.mapboxToken;
   const map = new mapboxgl.Map({
     container: mapElem.value!,
-    // style: "mapbox://styles/mapbox/streets-v12", // style URL
-    style: "mapbox://styles/mapbox/standard-beta", // style URL
+    style: "mapbox://styles/mapbox/standard", // style URL
     center: [11.12108, 46.06787], // starting position [lng, lat]
     zoom: 12, // starting zoom
+  });
+
+  map.on("style.load", () => {
+    // Add terrain - elevation
+    map.addSource("mapbox-dem", {
+      type: "raster-dem",
+      url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+      tileSize: 512,
+      maxzoom: 14,
+    });
+    // add the DEM source as a terrain layer with exaggerated height
+    map.setTerrain({ source: "mapbox-dem" });
   });
 
   map.on("load", async () => {
