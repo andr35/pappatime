@@ -68,18 +68,18 @@ export async function runDataExctractor(url: string) {
 
     data.restaurants.push({
       number: i,
-      name: row["__EMPTY_3"],
-      address: row["__EMPTY_4"],
-      city: row["__EMPTY_5"],
-      postalCode: row["__EMPTY_6"],
-      province: row["__EMPTY_7"],
-      region: row["__EMPTY_8"],
-      fraction: row["__EMPTY_9"],
-      type: row["__EMPTY_10"],
-      closingDay: row["__EMPTY_11"],
-      vatNumber: row["__EMPTY_12"],
-      supplierName: row["__EMPTY_13"],
-      code: row["__EMPTY_14"],
+      name: row["__EMPTY_4"],
+      address: row["__EMPTY_5"],
+      city: row["__EMPTY_6"],
+      postalCode: row["__EMPTY_7"],
+      province: row["__EMPTY_8"],
+      region: row["__EMPTY_9"],
+      fraction: row["__EMPTY_10"],
+      type: row["__EMPTY_11"],
+      closingDay: row["__EMPTY_12"],
+      vatNumber: "",
+      supplierName: "",
+      code: row["__EMPTY"],
 
       // number: row["N."],
       // name: row["Insegna"],
@@ -151,24 +151,29 @@ async function resolveCoordinates(
   client: GeocodeService,
   store: Restaurant
 ): Promise<Position> {
-  const queryText = `${store.address}, ${store.fraction}, ${store.city}, ${store.province}, ${store.postalCode}`;
+  try {
+    const queryText = `${store.address}, ${store.fraction}, ${store.city}, ${store.province}, ${store.postalCode}`;
 
-  const response = await client
-    .forwardGeocode({
-      query: queryText,
-      bbox: [10.17, 45.69, 12.48, 47.09],
-      limit: 1,
-      countries: ["IT"],
-    })
-    .send();
+    const response = await client
+      .forwardGeocode({
+        query: queryText,
+        bbox: [10.17, 45.69, 12.48, 47.09],
+        limit: 1,
+        countries: ["IT"],
+      })
+      .send();
 
-  if (response.statusCode != 200) {
-    logger.warn(
-      `Fail to geocode ${store.name} error ${response.statusCode}: ${response.rawBody}`
-    );
+    if (response.statusCode != 200) {
+      logger.warn(
+        `Fail to geocode ${store.name} error ${response.statusCode}: ${response.rawBody}`
+      );
+      return [0, 0];
+    }
+
+    const match = response.body;
+    return match.features[0]?.center;
+  } catch (e) {
+    logger.warn(`Fail to geocode ${store.name} error ${e}`);
     return [0, 0];
   }
-
-  const match = response.body;
-  return match.features[0]?.center;
 }
