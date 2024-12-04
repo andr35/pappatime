@@ -1,6 +1,6 @@
 export interface Restaurant {
   // Number of store
-  number: number;
+  number: number | string;
   // Store name
   name: string;
   // Store address

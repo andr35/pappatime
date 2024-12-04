@@ -1,5 +1,6 @@
-import { defineNuxtModule, useLogger } from "nuxt/kit";
-import { runDataExctractor } from "./data-extractor";
+import { defineNuxtModule } from "nuxt/kit";
+import { runDataExctractorApi } from "./data-extractor-api";
+import { runDataExctractorXls } from "./data-extractor-xls";
 
 export default defineNuxtModule({
   meta: {
@@ -8,11 +9,15 @@ export default defineNuxtModule({
   setup(options, nuxt) {
     // const config = useRuntimeConfig();
     nuxt.hook("build:before", async () => {
-      if (!process.env.DATA_XLS_URL) {
-        throw Error("Var DATA_XLS_URL not defined!");
-      }
+      switch (process.env.DATA_EXTRACTOR) {
+        case "xls":
+          await runDataExctractorXls();
+          break;
 
-      await runDataExctractor(process.env.DATA_XLS_URL);
+        case "api":
+          await runDataExctractorApi();
+          break;
+      }
     });
   },
 });

@@ -1,5 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  compatibilityDate: "2024-10-27",
+
   devtools: { enabled: true },
   modules: ["@nuxt/ui"],
 
@@ -26,7 +28,9 @@ export default defineNuxtConfig({
     dataXlsUrl: process.env.DATA_XLS_URL,
   },
 
-  ui: {
-    icons: ["heroicons", "mdi"],
+  icon: {
+    serverBundle: {
+      collections: ["heroicons", "mdi"],
+    },
   },
 });

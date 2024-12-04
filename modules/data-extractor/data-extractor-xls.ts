@@ -14,7 +14,13 @@ const logger = useLogger();
 
 const OUTPUT_PATH = "./public/geojson.json";
 
-export async function runDataExctractor(url: string) {
+export async function runDataExctractorXls() {
+  if (!process.env.DATA_XLS_URL) {
+    throw Error("Var DATA_XLS_URL not defined!");
+  }
+
+  const url = process.env.DATA_XLS_URL;
+
   if (existsSync(OUTPUT_PATH)) {
     logger.info(
       `"geojson.json" file exists... skip data extraction process...`
