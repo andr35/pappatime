@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Command } from "@nuxt/ui/dist/runtime/types";
+import type { Command } from "#ui/types";
 import type { RestaurantFeature } from "~/models/restaurant-feature";
 
 const db = await useDb();

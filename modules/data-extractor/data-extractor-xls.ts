@@ -18,6 +18,9 @@ export async function runDataExctractorXls() {
   if (!process.env.DATA_XLS_URL) {
     throw Error("Var DATA_XLS_URL not defined!");
   }
+  if (!process.env.MAPBOX_TOKEN) {
+    throw Error("Var MAPBOX_TOKEN not defined!");
+  }
 
   const url = process.env.DATA_XLS_URL;
 
