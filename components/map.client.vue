@@ -4,6 +4,7 @@
 
 <script setup lang="ts">
 import mapboxgl, { GeoJSONSource, type LngLatLike } from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
+import { MapLightPreset } from "~/models/map-light-preset";
 import type { RestaurantFeature } from "~/models/restaurant-feature";
 
 const LAYER = "markers-layer";
@@ -84,6 +85,12 @@ onMounted(async () => {
         "icon-allow-overlap": true,
         "text-allow-overlap": false,
       },
+      paint: {
+        "text-color": "#000000",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1,
+        "text-halo-blur": 0.5,
+      },
     });
 
     // Init event handlers
@@ -129,7 +136,9 @@ onMounted(async () => {
     });
 
     watch(mapLightPreset, (value) => {
-      (map as any).setConfigProperty("basemap", "lightPreset", value);
+      map.setConfigProperty("basemap", "lightPreset", value);
+      map.setPaintProperty(LAYER, "text-color", value === MapLightPreset.dusk || value === MapLightPreset.night ? "#ffffff" : "#000000");
+      map.setPaintProperty(LAYER, "text-halo-color", value === MapLightPreset.dusk || value === MapLightPreset.night ? "#000000" : "#ffffff");
     });
   });
 });
