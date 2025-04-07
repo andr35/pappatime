@@ -11,22 +11,22 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@iconify-json/heroicons": "^1.2.1",
-    "@iconify-json/mdi": "^1.2.1",
+    "@iconify-json/heroicons": "^1.2.2",
+    "@iconify-json/mdi": "^1.2.3",
     "@mapbox/mapbox-sdk": "^0.16.1",
     "@nuxt/ui": "^2.19.2",
-    "mapbox-gl": "^3.8.0",
+    "mapbox-gl": "^3.11.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@types/geojson": "^7946.0.14",
-    "@types/mapbox__mapbox-sdk": "^0.16.0",
-    "nuxt": "^3.14.1592",
-    "typescript": "~5.6.3",
+    "@types/geojson": "^7946.0.16",
+    "@types/mapbox__mapbox-sdk": "^0.16.1",
+    "nuxt": "^3.16.2",
+    "typescript": "~5.8.3",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
-    "vue-tsc": "^2.1.10"
+    "vue-tsc": "^2.2.8"
   },
   "packageManager": "bun@1"
 }
